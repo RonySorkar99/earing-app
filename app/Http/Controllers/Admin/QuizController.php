@@ -37,36 +37,42 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        $data=$request->all();
-        dd($data);
+        $data = $request->all();
+        // dd($data);
 
-        $ques= Question::create($data);
+        $ques = Question::create([
+            'question' => $request->question,
+            'answer' => $request->answer,
+            'note' => $request->note,
+            'coin' => $request->coin,
+            // 'option' => $request->option,
+        ]);
 
-         if(count($request->option) > 0) {
-          foreach ($request->option as $v) {
-          $datad=array(
-            'questions_id'=>$ques->id,
-            'option'=>$request->option[$v],
-          );
-          Options::insert($datad);
+        if (count($request->option) > 0) {
+            foreach ($request->option as $v) {
+                $datad = array(
+                    'questions_id' => $ques->id,
+                    'option' => $v,
+                );
+                Options::insert($datad);
+            }
         }
-        }
 
 
-     return redirect()->back()->with('success','Data add successfully');
+        return redirect()->back()->with('success', 'Data add successfully');
     }
 
 
 
 
 
-//     $data = new Question();
-//     $data->question =$request->question;
-//     $data->option = $request->option[];
-//     $data->answer=$request->answer;
-//     $data->note=$request->note;
-//     $data->coin=$request->coin;
-//     $data->save();
+    //     $data = new Question();
+    //     $data->question =$request->question;
+    //     $data->option = $request->option[];
+    //     $data->answer=$request->answer;
+    //     $data->note=$request->note;
+    //     $data->coin=$request->coin;
+    //     $data->save();
     /**
      * Display the specified resource.
      *
